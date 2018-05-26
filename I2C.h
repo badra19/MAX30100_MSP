@@ -8,7 +8,7 @@
 #ifndef I2C_H_
 #define I2C_H_
 
-#define MAX_BUFFER_SIZE     20
+#define MAX_BUFFER_SIZE     64
 
 #define SLAVE_ADDR 0x57 //MAX3010 address
 

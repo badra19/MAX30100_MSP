@@ -1,7 +1,6 @@
 #include <msp430.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "I2C.h"
 #include "MAX30100.c"
 
 //******************************************************************************
@@ -63,10 +62,13 @@ int main(void) {
     initGPIO();
     initI2C();
 
-    if(getPartId() == EXPECTED_PART_ID)
-        LED_OUT = LED0_PIN + LED1_PIN;
-    else
+    if(begin() == true)
         LED_OUT = LED0_PIN;
+    else
+        LED_OUT = LED0_PIN + LED1_PIN;
+
+    if(readRegister(MAX30100_REG_MODE_CONFIGURATION) != DEFAULT_MODE)
+        LED_OUT = LED1_PIN;
 
     __bis_SR_register(LPM0_bits + GIE);
     return 0;
