@@ -15,6 +15,8 @@ main.obj: ../MAX30100_Registers.h
 main.obj: ../ringbuffer.h
 main.obj: ../I2C.c
 main.obj: ../I2C.h
+main.obj: ../MAX30100.h
+main.obj: ../UARTcom.c
 
 ../main.c: 
 C:/ti/ccsv7/ccs_base/msp430/include/msp430.h: 
@@ -31,3 +33,5 @@ C:/ti/ccsv7/tools/compiler/ti-cgt-msp430_16.9.4.LTS/include/linkage.h:
 ../ringbuffer.h: 
 ../I2C.c: 
 ../I2C.h: 
+../MAX30100.h: 
+../UARTcom.c: 

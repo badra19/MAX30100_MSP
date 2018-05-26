@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "MAX30100.c"
+#include "UARTcom.c"
 
 //******************************************************************************
 // Pin Config ******************************************************************
@@ -63,12 +64,9 @@ int main(void) {
     initI2C();
 
     if(begin() == true)
-        LED_OUT = LED0_PIN;
+        LED_OUT = LED0_PIN +  + LED1_PIN;
     else
-        LED_OUT = LED0_PIN + LED1_PIN;
-
-    if(readRegister(MAX30100_REG_MODE_CONFIGURATION) != DEFAULT_MODE)
-        LED_OUT = LED1_PIN;
+        LED_OUT = LED0_PIN;
 
     __bis_SR_register(LPM0_bits + GIE);
     return 0;
