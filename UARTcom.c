@@ -2,7 +2,7 @@
 
 void initUart();
 void sendData(unsigned char c);
-void sendInt(int n);
+void sendInt(unsigned int n);
 void sendString(char str[]);
 
 void initUart() // 115200 Baudrate
@@ -26,30 +26,26 @@ void sendData(unsigned char c)
     UCA0TXBUF = c;
 }
 
-void sendInt(int n)
+void sendInt(unsigned int n)
 {
-    int casa, dig;
+    int num[] = {10000,1000,100,10,1 };
+    int pos, posI;
+
     if(n==0)
     {
         sendData('0');
         return;
     }
-    if(n<0)
-    {
-        sendData('-');
-        n = -n;
-    }
 
-    for(casa = 1; casa<=n; casa *= 10);
-    casa /= 10;
-    while(casa>0)
+    for (pos = posI; pos < 5; pos++)
     {
-        dig = (n/casa);
-        sendData(dig+'0');
-        n -= dig*casa;
-        casa /= 10;
+      int cnt = 0;
+      while (n >= num[pos]) {
+        cnt++;
+        n -= num[pos];
+      }
+      sendData(cnt+'0');
     }
-
 }
 
 void sendString(char str[])
