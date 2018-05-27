@@ -13,6 +13,11 @@
 #define LED0_PIN    BIT0
 #define LED1_PIN    BIT1
 
+#define SAMPLING_RATE                       MAX30100_SAMPRATE_100HZ
+#define IR_LED_CURRENT                      MAX30100_LED_CURR_50MA
+#define RED_LED_CURRENT                     MAX30100_LED_CURR_27_1MA
+#define PULSE_WIDTH                         MAX30100_SPC_PW_1600US_16BITS
+#define HIGHRES_MODE                        true
 
 //******************************************************************************
 // Device Initialization *******************************************************
@@ -28,6 +33,9 @@ void initGPIO()
     // I2C pins
     P1SEL0 |= BIT2 | BIT3;
     P1SEL1 &= ~(BIT2 | BIT3);
+
+    // UART pins
+    P1SEL0 |= BIT4 | BIT5; // set 2-UART pin as second function
 
     // Disable the GPIO power-on default high-impedance mode to activate
     // previously configured port settings
@@ -58,16 +66,47 @@ void initClockTo16MHz()
 //******************************************************************************
 
 int main(void) {
-    WDTCTL = WDTPW | WDTHOLD;   // Stop watchdog timer
+    WDTCTL = WDTPW | WDTHOLD; // Stop watchdog timer
     initClockTo16MHz();
     initGPIO();
     initI2C();
+    initUart();
+    __bis_SR_register(GIE);
 
+    sendString("Initializing MAX30100..");
     if(begin() == true)
-        LED_OUT = LED0_PIN +  + LED1_PIN;
-    else
+    {
         LED_OUT = LED0_PIN;
+        sendString("Sucess");
+    }
+    else
+    {
+        LED_OUT = LED0_PIN + LED1_PIN;
+        sendString("Failed");
+        return 1;
+    }
 
-    __bis_SR_register(LPM0_bits + GIE);
+    setMode(MAX30100_MODE_SPO2_HR);
+    setLedsCurrent(IR_LED_CURRENT, RED_LED_CURRENT);
+    setLedsPulseWidth(PULSE_WIDTH);
+    setSamplingRate(SAMPLING_RATE);
+    setHighresModeEnabled(HIGHRES_MODE);
+
+    sendString("Start Samples");
+    uint16_t ir, red;
+    while(1)
+    {
+        update();
+
+        while(getRawValues(&ir, &red))
+        {
+            sendInt((int) ir);
+            sendData('\t');
+            sendInt((int) red);
+            sendData('\n');
+            __delay_cycles(100000);
+        }
+    }
+
     return 0;
 }
