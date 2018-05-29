@@ -56,19 +56,17 @@ bool beatDetectorCheckForBeat(float sample)
 {
     bool beatDetected = false;
 
-    initWDT();
-
-    switch (state) {
+    switch (stateBeat) {
         case BEATDETECTOR_STATE_INIT:
             if (millis() > BEATDETECTOR_INIT_HOLDOFF) {
-                state = BEATDETECTOR_STATE_WAITING;
+                stateBeat = BEATDETECTOR_STATE_WAITING;
             }
             break;
 
         case BEATDETECTOR_STATE_WAITING:
             if (sample > threshold) {
                 threshold = min(sample, BEATDETECTOR_MAX_THRESHOLD);
-                state = BEATDETECTOR_STATE_FOLLOWING_SLOPE;
+                stateBeat = BEATDETECTOR_STATE_FOLLOWING_SLOPE;
             }
 
             // Tracking lost, resetting
@@ -77,7 +75,7 @@ bool beatDetectorCheckForBeat(float sample)
                 lastMaxValue = 0;
             }
 
-            decreaseThreshold();
+            beatDetectorDecreaseThreshold();
             break;
 
         case BEATDETECTOR_STATE_FOLLOWING_SLOPE:
@@ -93,7 +91,7 @@ bool beatDetectorCheckForBeat(float sample)
                 // Found a beat
                 beatDetected = true;
                 lastMaxValue = sample;
-                state = BEATDETECTOR_STATE_MASKING;
+                stateBeat = BEATDETECTOR_STATE_MASKING;
                 float delta = millis() - tsLastBeat;
                 if (delta) {
                     beatPeriod = BEATDETECTOR_BPFILTER_ALPHA * delta +
@@ -102,19 +100,17 @@ bool beatDetectorCheckForBeat(float sample)
 
                 tsLastBeat = millis();
             } else {
-                state = BEATDETECTOR_STATE_FOLLOWING_SLOPE;
+                stateBeat = BEATDETECTOR_STATE_FOLLOWING_SLOPE;
             }
             break;
 
         case BEATDETECTOR_STATE_MASKING:
             if (millis() - tsLastBeat > BEATDETECTOR_MASKING_HOLDOFF) {
-                state = BEATDETECTOR_STATE_WAITING;
+                stateBeat = BEATDETECTOR_STATE_WAITING;
             }
-            decreaseThreshold();
+            beatDetectorDecreaseThreshold();
             break;
     }
-
-    holdWDT();
 
     return beatDetected;
 }

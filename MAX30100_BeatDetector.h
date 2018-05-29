@@ -36,7 +36,7 @@ float beatDetectorGetCurrentThreshold();
 bool beatDetectorCheckForBeat(float value);
 void beatDetectorDecreaseThreshold();
 
-BeatDetectorState state;
+BeatDetectorState stateBeat;
 float threshold;
 float beatPeriod;
 float lastMaxValue;

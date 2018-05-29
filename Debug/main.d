@@ -19,7 +19,10 @@ main.obj: ../MAX30100.h
 main.obj: ../UARTcom.c
 main.obj: ../MAX30100_PulseOximeter.c
 main.obj: ../MAX30100_PulseOximeter.h
+main.obj: ../MAX30100_BeatDetector.h
 main.obj: ../MAX30100_Filters.h
+main.obj: ../MAX30100_SpO2Calculator.h
+main.obj: ../TimerWDT.c
 
 ../main.c: 
 C:/ti/ccsv7/ccs_base/msp430/include/msp430.h: 
@@ -40,4 +43,7 @@ C:/ti/ccsv7/tools/compiler/ti-cgt-msp430_16.9.4.LTS/include/linkage.h:
 ../UARTcom.c: 
 ../MAX30100_PulseOximeter.c: 
 ../MAX30100_PulseOximeter.h: 
+../MAX30100_BeatDetector.h: 
 ../MAX30100_Filters.h: 
+../MAX30100_SpO2Calculator.h: 
+../TimerWDT.c: 

@@ -67,47 +67,15 @@ void initClockTo16MHz()
 //******************************************************************************
 
 int main(void) {
-    WDTCTL = WDTPW | WDTHOLD; // Stop watchdog timer
+    initWDT();
+    holdWDT();
     initClockTo16MHz();
     initGPIO();
     initI2C();
     initUart();
     __bis_SR_register(GIE);
 
-    sendString("Initializing MAX30100..");
-    if(pulseOxBegin(PULSEOXIMETER_DEBUGGINGMODE_RAW_VALUES) == true)
-    {
-        LED_OUT = LED0_PIN;
-        sendString("Sucess");
-    }
-    else
-    {
-        LED_OUT = LED0_PIN + LED1_PIN;
-        sendString("Failed");
-        return 1;
-    }
 
-    setMode(MAX30100_MODE_SPO2_HR);
-    setLedsCurrent(IR_LED_CURRENT, RED_LED_CURRENT);
-    setLedsPulseWidth(PULSE_WIDTH);
-    setSamplingRate(SAMPLING_RATE);
-    setHighresModeEnabled(HIGHRES_MODE);
-
-    sendString("Start Samples");
-    uint16_t ir, red;
-    while(1)
-    {
-        update();
-
-        while(getRawValues(&ir, &red))
-        {
-            sendInt((unsigned int) ir);
-            sendData('\t');
-            sendInt((unsigned int) red);
-            sendData('\n');
-            __delay_cycles(100000);
-        }
-    }
 
     return 0;
 }

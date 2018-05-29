@@ -16,12 +16,12 @@ const uint8_t SpO2Calculator::spO2LUT[43] = {100,100,100,100,99,99,99,99,99,99,9
                                              98,97,97,97,97,97,97,96,96,96,96,96,96,95,95,
                                              95,95,95,95,94,94,94,94,94,93,93,93,93,93};
 
-uint8_t spO2CalcgetSpO2()
+uint8_t spO2CalcGetSpO2()
 {
     return spO2;
 }
 
-void spO2Calcreset()
+void spO2CalcReset()
 {
     samplesRecorded = 0;
     redACValueSqSum = 0;
@@ -30,7 +30,7 @@ void spO2Calcreset()
     spO2 = 0;
 }
 
-void spO2Calcupdate(float irACValue, float redACValue, bool beatDetected)
+void spO2CalcUpdate(float irACValue, float redACValue, bool beatDetected)
 {
     irACValueSqSum += irACValue * irACValue;
     redACValueSqSum += redACValue * redACValue;

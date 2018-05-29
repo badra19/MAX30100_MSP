@@ -12,9 +12,9 @@
 
 #define CALCULATE_EVERY_N_BEATS         3
 
-void spO2Calcupdate(float irACValue, float redACValue, bool beatDetected);
-void spO2Calcreset();
-uint8_t spO2CalcgetSpO2();
+void spO2CalcUpdate(float irACValue, float redACValue, bool beatDetected);
+void spO2CalcReset();
+uint8_t spO2CalcGetSpO2();
 
 static const uint8_t spO2LUT[43];
 

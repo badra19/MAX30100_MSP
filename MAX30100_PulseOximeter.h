@@ -17,9 +17,9 @@
 #include <stdint.h>
 
 #include "MAX30100.h"
-//#include "MAX30100_BeatDetector.h"
+#include "MAX30100_BeatDetector.h"
 #include "MAX30100_Filters.h"
-//#include "MAX30100_SpO2Calculator.h"
+#include "MAX30100_SpO2Calculator.h"
 
 typedef enum PulseOximeterState {
     PULSEOXIMETER_STATE_INIT,
@@ -43,5 +43,18 @@ uint32_t tsFirstBeatDetected;
 uint32_t tsLastBeatDetected;
 uint32_t tsLastBiasCheck;
 uint32_t tsLastCurrentAdjustment;
+
+void (*onBeatDetected)();
+bool pulseOxBegin(PulseOximeterDebuggingMode debuggingMode_);
+void pulseOxCheckSample();
+void pulseOxCheckCurrentBias();
+void pulseOxUpdate();
+float pulseOxGetHeartRate();
+uint8_t pulseOxGetSpO2();
+uint8_t pulseOxGetRedLedCurrentBias();
+void pulseOxSetOnBeatDetectedCallback(void (*cb)());
+void pulseOxSetIRLedCurrent(LEDCurrent irLedNewCurrent);
+void pulseOxiShutdown();
+void pulseOxResume();
 
 #endif /* MAX30100_PULSEOXIMETER_H_ */
