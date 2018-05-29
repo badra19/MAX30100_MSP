@@ -35,14 +35,14 @@ typedef enum PulseOximeterDebuggingMode {
 } PulseOximeterDebuggingMode;
 
 PulseOximeterDebuggingMode debuggingMode;
-PulseOximeterState state;
-LEDCurrent irLedCurrent;
-uint8_t redLedCurrentIndex;
+PulseOximeterState state = PULSEOXIMETER_STATE_INIT;
+LEDCurrent irLedCurrent = DEFAULT_IR_LED_CURRENT;
+uint8_t redLedCurrentIndex = (uint8_t)RED_LED_CURRENT_START;
 
-uint32_t tsFirstBeatDetected;
-uint32_t tsLastBeatDetected;
-uint32_t tsLastBiasCheck;
-uint32_t tsLastCurrentAdjustment;
+uint32_t tsFirstBeatDetected = 0;
+uint32_t tsLastBeatDetected = 0;
+uint32_t tsLastBiasCheck = 0;
+uint32_t tsLastCurrentAdjustment = 0;
 
 void (*onBeatDetected)();
 bool pulseOxBegin(PulseOximeterDebuggingMode debuggingMode_);

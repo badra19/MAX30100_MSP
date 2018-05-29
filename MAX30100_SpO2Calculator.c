@@ -12,9 +12,6 @@
 
 // SaO2 Look-up Table
 // http://www.ti.com/lit/an/slaa274b/slaa274b.pdf
-const uint8_t SpO2Calculator::spO2LUT[43] = {100,100,100,100,99,99,99,99,99,99,98,98,98,98,
-                                             98,97,97,97,97,97,97,96,96,96,96,96,96,95,95,
-                                             95,95,95,95,94,94,94,94,94,93,93,93,93,93};
 
 uint8_t spO2CalcGetSpO2()
 {
@@ -47,7 +44,7 @@ void spO2CalcUpdate(float irACValue, float redACValue, bool beatDetected)
             } else if (acSqRatio > 50) {
                 index = (uint8_t)acSqRatio - 50;
             }
-            reset();
+            spO2CalcReset();
 
             spO2 = spO2LUT[index];
         }

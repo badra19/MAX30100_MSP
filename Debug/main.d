@@ -22,7 +22,11 @@ main.obj: ../MAX30100_PulseOximeter.h
 main.obj: ../MAX30100_BeatDetector.h
 main.obj: ../MAX30100_Filters.h
 main.obj: ../MAX30100_SpO2Calculator.h
+main.obj: ../MAX30100_BeatDetector.c
 main.obj: ../TimerWDT.c
+main.obj: ../MAX30100_SpO2Calculator.c
+main.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-msp430_16.9.4.LTS/include/math.h
+main.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-msp430_16.9.4.LTS/include/_defs.h
 
 ../main.c: 
 C:/ti/ccsv7/ccs_base/msp430/include/msp430.h: 
@@ -46,4 +50,8 @@ C:/ti/ccsv7/tools/compiler/ti-cgt-msp430_16.9.4.LTS/include/linkage.h:
 ../MAX30100_BeatDetector.h: 
 ../MAX30100_Filters.h: 
 ../MAX30100_SpO2Calculator.h: 
+../MAX30100_BeatDetector.c: 
 ../TimerWDT.c: 
+../MAX30100_SpO2Calculator.c: 
+C:/ti/ccsv7/tools/compiler/ti-cgt-msp430_16.9.4.LTS/include/math.h: 
+C:/ti/ccsv7/tools/compiler/ti-cgt-msp430_16.9.4.LTS/include/_defs.h: 

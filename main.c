@@ -14,12 +14,6 @@
 #define LED0_PIN    BIT0
 #define LED1_PIN    BIT1
 
-#define SAMPLING_RATE                       MAX30100_SAMPRATE_100HZ
-#define IR_LED_CURRENT                      MAX30100_LED_CURR_50MA
-#define RED_LED_CURRENT                     MAX30100_LED_CURR_27_1MA
-#define PULSE_WIDTH                         MAX30100_SPC_PW_1600US_16BITS
-#define HIGHRES_MODE                        true
-
 //******************************************************************************
 // Device Initialization *******************************************************
 //******************************************************************************
@@ -75,7 +69,32 @@ int main(void) {
     initUart();
     __bis_SR_register(GIE);
 
+    sendString("Initializing MAX30100..");
+    if(pulseOxBegin(PULSEOXIMETER_DEBUGGINGMODE_PULSEDETECT) == true)
+    {
+        LED_OUT = LED0_PIN;
+        sendString("Sucess");
+    }
+    else
+    {
+        LED_OUT = LED0_PIN + LED1_PIN;
+        sendString("Failed");
+        return 1;
+    }
 
+    while(1)
+    {
+        pulseOxUpdate();
+
+        while(1)
+        {
+            sendInt((unsigned int) pulseOxGetSpO2());
+            sendData('\t');
+            sendInt((unsigned int) pulseOxGetHeartRate());
+            sendData('\n');
+            __delay_cycles(100000);
+        }
+    }
 
     return 0;
 }

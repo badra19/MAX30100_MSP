@@ -8,6 +8,7 @@
 
 #include "MAX30100_BeatDetector.h"
 #include "TimerWDT.c"
+#include <stdbool.h>
 
 #ifndef min
 #define min(a,b) \
@@ -18,13 +19,13 @@
 
 bool beatDetectorAddSample(float sample)
 {
-	return beatDetectorCheckForBeat(float value);
+	return beatDetectorCheckForBeat(sample);
 }
 
 float beatDetectorGetRate()
 {
     if (beatPeriod != 0) {
-        return 1 / beatPeriod * 1000 * 60;
+        return 1.0 / beatPeriod * 1000.0 * 60.0;
     } else {
         return 0;
     }

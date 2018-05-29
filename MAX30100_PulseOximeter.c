@@ -6,13 +6,14 @@
  */
 
 #include "MAX30100_PulseOximeter.h"
-#include "TimerWDT.c"
 #include "MAX30100.h"
 #include "MAX30100_BeatDetector.h"
+#include "MAX30100_BeatDetector.c"
 
 #include "MAX30100_Filters.h"
 
 #include "MAX30100_SpO2Calculator.h"
+#include "MAX30100_SpO2Calculator.c"
 
 bool pulseOxBegin(PulseOximeterDebuggingMode debuggingMode_)
 {
