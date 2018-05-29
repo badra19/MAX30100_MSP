@@ -28,23 +28,25 @@ void sendData(unsigned char c)
 
 void sendInt(unsigned int n)
 {
-    int num[] = {10000,1000,100,10,1 };
-    int pos, posI;
+    int num[] = {10000,1000,100,10,1};
+    int pos, posI = 0, cnt, i;
 
     if(n==0)
-    {
         sendData('0');
-        return;
-    }
-
-    for (pos = posI; pos < 5; pos++)
+    else
     {
-      int cnt = 0;
-      while (n >= num[pos]) {
-        cnt++;
-        n -= num[pos];
-      }
-      sendData(cnt+'0');
+        for (i = 4; i >= 0; i--)
+            posI = n >= num[i] ? i : posI;
+
+        for (pos = posI; pos < 5; pos++)
+        {
+          cnt = 0;
+          while (n >= num[pos]) {
+            cnt++;
+            n -= num[pos];
+          }
+          sendData(cnt+'0');
+        }
     }
 }
 
