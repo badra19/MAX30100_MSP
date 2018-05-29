@@ -31,7 +31,7 @@ void setDCAlpha(float alpha_, char c)
 	switch(c)
 	{
 		case 'R':
-			alphaRed = alpha;
+			alphaRed = alpha_;
 			break;
 		case 'I':
 			alphaIr = alpha_;
@@ -47,13 +47,10 @@ float getDCW(char c)
 	{
 		case 'R':
 			return dcwRed;
-			break;
 		case 'I':
 			return dcwIr;
-			break;
 		default:
 			return 0;
-			break;
 	}
 }
 
