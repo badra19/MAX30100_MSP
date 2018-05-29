@@ -35,6 +35,13 @@ typedef enum PulseOximeterDebuggingMode {
 } PulseOximeterDebuggingMode;
 
 PulseOximeterDebuggingMode debuggingMode;
+PulseOximeterState state;
+LEDCurrent irLedCurrent;
+uint8_t redLedCurrentIndex;
 
+uint32_t tsFirstBeatDetected;
+uint32_t tsLastBeatDetected;
+uint32_t tsLastBiasCheck;
+uint32_t tsLastCurrentAdjustment;
 
 #endif /* MAX30100_PULSEOXIMETER_H_ */

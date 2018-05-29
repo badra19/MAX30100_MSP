@@ -30,3 +30,19 @@ bool pulseOxBegin(PulseOximeterDebuggingMode debuggingMode_)
 
     return true;
 }
+
+void pulseOxCheckSample()
+{
+	uint16_t rawIRValue, rawRedValue;
+	float irACValue, redACValue, filteredPulseValue;
+	bool beatDetected; 
+
+	// Dequeue all available samples
+	while(getRawValues(&rawIRValue, &rawRedValue))
+	{
+        irACValue = dcStepIr(rawIRValue);
+        redACValue = dcStepRed(rawRedValue);
+
+        filteredPulseValue = butterworthStep(-irACValue);
+	}
+}
