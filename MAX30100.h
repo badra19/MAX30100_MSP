@@ -1,3 +1,6 @@
+#ifndef MAX30100_H
+#define MAX30100_H
+
 #define DEFAULT_MODE                MAX30100_MODE_HRONLY
 #define DEFAULT_SAMPLING_RATE       MAX30100_SAMPRATE_100HZ
 #define DEFAULT_PULSE_WIDTH         MAX30100_SPC_PW_1600US_16BITS
@@ -33,3 +36,5 @@ void burstRead(uint8_t baseAddress, uint8_t *buffer, uint8_t length);
 void readFifoData();
 void update();
 bool getRawValues(uint16_t *ir, uint16_t *red);
+
+#endif

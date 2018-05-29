@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "MAX30100.c"
 #include "UARTcom.c"
+#include "MAX30100_PulseOximeter.c"
 
 //******************************************************************************
 // Pin Config ******************************************************************
@@ -74,7 +75,7 @@ int main(void) {
     __bis_SR_register(GIE);
 
     sendString("Initializing MAX30100..");
-    if(begin() == true)
+    if(pulseOxBegin(PULSEOXIMETER_DEBUGGINGMODE_RAW_VALUES) == true)
     {
         LED_OUT = LED0_PIN;
         sendString("Sucess");

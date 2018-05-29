@@ -23,21 +23,54 @@ float butterworthStep(float x) //class II
 }	
 
 // http://sam-koblenski.blogspot.de/2015/11/everyday-dsp-for-programmers-dc-and.html
-float alpha;
-float dcw = 0;
+float alphaRed, alphaIr;
+float dcwRed = 0, dcwIr = 0;
 
-void setDcAlpha(float alpha_)
-	alpha = alpha_;
-
-float getDCW()
-	return dcw;
-
-float dcStep(float x)
+void setDCAlpha(float alpha_, char c)
 {
-	float olddcw = dcw;
-	dcw = (float)x + alpha * dcw;
+	switch(c)
+	{
+		case 'R':
+			alphaRed = alpha;
+			break;
+		case 'I':
+			alphaIr = alpha_;
+			break;
+		default:
+			break;
+	}
+}
 
-	return dcw - olddcw;
+float getDCW(char c)
+{
+	switch(c)
+	{
+		case 'R':
+			return dcwRed;
+			break;
+		case 'I':
+			return dcwIr;
+			break;
+		default:
+			return 0;
+			break;
+	}
+}
+
+float dcStepRed(float xRed)
+{
+	float olddcwRed = dcwRed;
+	dcwRed = (float)xRed + alphaRed * dcwRed;
+
+	return dcwRed - olddcwRed;
+}
+
+float dcStepIr(float xIr)
+{
+	float olddcwIr = dcwIr;
+	dcwIr = (float)xIr + alphaIr * dcwIr;
+
+	return dcwIr - olddcwIr;
 }
 
 #endif /* MAX30100_FILTERS_H_ */
