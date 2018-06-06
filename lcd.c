@@ -26,35 +26,6 @@ void Send_Int(int n);
 void Send_Float(volatile float var_float);
 void InitLCD(void);
 
-int main(void)
-{
-	float oi = 0;
-	WDTCTL = WDTHOLD + WDTPW;
-
-	PM5CTL0 &= ~LOCKLPM5;
-
-	CSCTL1 = 0xF1;      //MCLK e SMCLK @ 1MHz
-    CSCTL0 = 0x00;
-
-	P2DIR &= ~BTN;
-	P2OUT = P2REN = BTN;
-	InitLCD();
-	Send_String("Pressione BTN");
-	while(1)
-	{
-		// Espera o botao ser pressionado
-		while(P2IN&BTN);
-		// Espera o botao ser solto
-		while((P2IN&BTN)==0);
-		// Transmite a string
-		CLR_DISPLAY;
-		POS0_DISPLAY;
-		Send_Float(oi+= 0.1);
-		Send_String(": Ola SS");
-	}
-	return 0;
-}
-
 void InitLCD(void)
 {
 	unsigned char CMNDS[] = {0x02, 0x01, 0x28, 0x0E};
