@@ -36,7 +36,6 @@ bool pulseOxBegin(PulseOximeterDebuggingMode debuggingMode_)
 
     state = PULSEOXIMETER_STATE_IDLE;
 
-    initWDT();
     return true;
 }
 
@@ -65,30 +64,35 @@ void pulseOxCheckSample()
 
         switch (debuggingMode) {
             case PULSEOXIMETER_DEBUGGINGMODE_RAW_VALUES:
-                /*
-                Serial.print("R:");
-                Serial.print(rawIRValue);
-                Serial.print(",");
-                Serial.println(rawRedValue);
-                */
+                sendString("I-");
+                sendInt((unsigned int) rawIRValue);
+                sendData('\t');
+                sendString("R-");
+                sendInt((unsigned int) rawRedValue);
+                sendData('\n');
                 break;
 
             case PULSEOXIMETER_DEBUGGINGMODE_AC_VALUES:
-                /*
-                Serial.print("R:");
-                Serial.print(irACValue);
-                Serial.print(",");
-                Serial.println(redACValue);
-                */
+                sendString("IRac: ");
+                sendFloat(irACValue);
+                sendData('\t');
+                sendString("Rac: ");
+                sendFloat(redACValue);
+                sendData('\n');     
                 break;
 
             case PULSEOXIMETER_DEBUGGINGMODE_PULSEDETECT:
-                /*
-                Serial.print("R:");
-                Serial.print(filteredPulseValue);
-                Serial.print(",");
-                Serial.println(beatDetectorGetCurrentThreshold());
-                */
+                sendString("R: ");
+                sendFloat(filteredPulseValue);
+                sendData('\t');
+                sendString("TH: ");
+                sendFloat(beatDetectorGetCurrentThreshold());
+                sendData('\n');
+                break;
+
+            case PULSEOXIMETER_DEBUGGINGMODE_PULSEPLOTTER:
+                sendFloat(filteredPulseValue);
+                sendData('\n');
                 break;
 
             default:
@@ -138,7 +142,7 @@ void pulseOxUpdate()
     update();
 
     pulseOxCheckSample();
-    pulseOxCheckCurrentBias();
+    //pulseOxCheckCurrentBias();
 }
 
 float pulseOxGetHeartRate()

@@ -93,7 +93,7 @@ bool beatDetectorCheckForBeat(float sample)
                 beatDetected = true;
                 lastMaxValue = sample;
                 stateBeat = BEATDETECTOR_STATE_MASKING;
-                float delta = millis() - tsLastBeat;
+                uint32_t delta = millis() - tsLastBeat;
                 if (delta) {
                     beatPeriod = BEATDETECTOR_BPFILTER_ALPHA * delta +
                             (1 - BEATDETECTOR_BPFILTER_ALPHA) * beatPeriod;

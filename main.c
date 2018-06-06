@@ -62,7 +62,6 @@ void initClockTo16MHz()
 
 int main(void) {
     initWDT();
-    holdWDT();
     initClockTo16MHz();
     initGPIO();
     initI2C();
@@ -70,10 +69,10 @@ int main(void) {
     __bis_SR_register(GIE);
 
     sendString("Initializing MAX30100..");
-    if(pulseOxBegin(PULSEOXIMETER_DEBUGGINGMODE_PULSEDETECT) == true)
+    if(pulseOxBegin(PULSEOXIMETER_DEBUGGINGMODE_NONE) == true)
     {
         LED_OUT = LED0_PIN;
-        sendString("Sucess");
+        sendString("Sucesso");
     }
     else
     {
@@ -82,18 +81,16 @@ int main(void) {
         return 1;
     }
 
+
     while(1)
     {
         pulseOxUpdate();
-
-        while(1)
-        {
-            sendInt((unsigned int) pulseOxGetSpO2());
-            sendData('\t');
-            sendInt((unsigned int) pulseOxGetHeartRate());
-            sendData('\n');
-            __delay_cycles(100000);
-        }
+        sendString("SPO2: ");
+        sendInt((unsigned int) pulseOxGetSpO2());
+        sendData('\t');
+        sendString("HR: ");
+        sendFloat(pulseOxGetHeartRate());
+        sendData('\n');
     }
 
     return 0;

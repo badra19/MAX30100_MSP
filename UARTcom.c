@@ -4,6 +4,7 @@ void initUart();
 void sendData(unsigned char c);
 void sendInt(unsigned int n);
 void sendString(char str[]);
+void sendFloat(float f);
 
 void initUart() // 115200 Baudrate
 {
@@ -55,4 +56,24 @@ void sendString(char str[])
     unsigned int i;
     for(i=0; str[i]!= '\0'; i++)
         sendData(str[i]);
+}
+
+void sendFloat(float f)
+{
+    int fInteger, fIntegerFract;
+    float fFract;
+
+    if(f < 0)
+    {
+        sendData('-');
+        f = -1*f;
+    }
+
+    fInteger = (int) f;
+    fFract = f -fInteger;
+    fFract = 100*fFract;
+    fIntegerFract = (int) fFract;
+    sendInt((unsigned int) fInteger);
+    sendData('.');
+    sendInt((unsigned int) fIntegerFract);
 }

@@ -36,10 +36,10 @@ float beatDetectorGetCurrentThreshold();
 bool beatDetectorCheckForBeat(float value);
 void beatDetectorDecreaseThreshold();
 
-BeatDetectorState stateBeat;
-float threshold;
-float beatPeriod;
-float lastMaxValue;
-uint32_t tsLastBeat;
+BeatDetectorState stateBeat = BEATDETECTOR_STATE_INIT;
+float threshold = BEATDETECTOR_MIN_THRESHOLD;
+float beatPeriod = 0;
+float lastMaxValue = 0;
+uint32_t tsLastBeat = 0;
 
 #endif /* MAX30100_BEATDETECTOR_H_ */
