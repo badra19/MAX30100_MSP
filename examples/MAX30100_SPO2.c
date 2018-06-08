@@ -4,6 +4,7 @@
 #include "MAX30100.c"
 #include "UARTcom.c"
 #include "MAX30100_PulseOximeter.c"
+#include "lcd.c"
 
 //******************************************************************************
 // Pin Config ******************************************************************
@@ -55,6 +56,21 @@ void initClockTo16MHz()
     while(CSCTL7 & (FLLUNLOCK0 | FLLUNLOCK1));         // FLL locked
 }
 
+void atrasoMs(volatile unsigned int us)
+{
+    volatile int count = 0;
+    TA0CTL = TASSEL_2 + ID_3 + MC_3 + TAIE;
+    TA0CCR0 = us-1;
+
+    while(count < 1000)
+    {
+        while((TA0CTL & TAIFG)==0);
+        TA0CTL = MC_0;
+        TA0CTL = 0;
+        count++;
+    }
+
+}
 
 //******************************************************************************
 // Main ************************************************************************
@@ -62,30 +78,48 @@ void initClockTo16MHz()
 
 int main(void) {
     initWDT();
-    holdWDT();
     initClockTo16MHz();
     initGPIO();
     initI2C();
     initUart();
+    //InitLCD();
     __bis_SR_register(GIE);
 
+    /*
+    P2DIR &= ~BIT3;
+    P2OUT |= BIT3;
+    P2REN |= BIT3;
+
+    Send_String("AMO MICRO");
+    while(!(P2IN & BIT3));
+    */
+
     sendString("Initializing MAX30100..");
+    sendData('\n');
     if(pulseOxBegin(PULSEOXIMETER_DEBUGGINGMODE_NONE) == true)
     {
         LED_OUT = LED0_PIN;
-        sendString("Sucesso");
+        sendString("Sucess");
+        sendData('\n');
     }
     else
     {
         LED_OUT = LED0_PIN + LED1_PIN;
         sendString("Failed");
+        sendData('\n');
         return 1;
     }
+
+    /*
+    while(1)
+    {
+        pulseOxUpdate();
+    }
+    */
 
 
     uint16_t rawIRValue, rawRedValue;
     float irACValue, redACValue;
-
     while(1)
     {
         update();
@@ -99,8 +133,15 @@ int main(void) {
         }
         if(rawIRValue > 30000 && rawRedValue > 30000)
         {
+            /*
+            CLR_DISPLAY;
+            POS0_DISPLAY;
+            Send_String("SpO2: ");
+            Send_Int(pulseOxGetSpO2());
+            */
             sendInt((unsigned int) pulseOxGetSpO2());
             sendData('\n');
+            __delay_cycles(1000000);
         }
     }
 

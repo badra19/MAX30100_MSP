@@ -56,7 +56,6 @@ void beatDetectorDecreaseThreshold()
 bool beatDetectorCheckForBeat(float sample)
 {
     bool beatDetected = false;
-
     switch (stateBeat) {
         case BEATDETECTOR_STATE_INIT:
             if (millis() > BEATDETECTOR_INIT_HOLDOFF) {
@@ -81,7 +80,7 @@ bool beatDetectorCheckForBeat(float sample)
 
         case BEATDETECTOR_STATE_FOLLOWING_SLOPE:
             if (sample < threshold) {
-                state = BEATDETECTOR_STATE_MAYBE_DETECTED;
+                stateBeat = BEATDETECTOR_STATE_MAYBE_DETECTED;
             } else {
                 threshold = min(sample, BEATDETECTOR_MAX_THRESHOLD);
             }

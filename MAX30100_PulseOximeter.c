@@ -87,6 +87,28 @@ void pulseOxCheckSample()
                 sendData('\t');
                 sendString("TH: ");
                 sendFloat(beatDetectorGetCurrentThreshold());
+                sendData('\t');
+                switch (stateBeat)
+                {
+                    case BEATDETECTOR_STATE_INIT:
+                        sendString("INIT");
+                        break;
+                    case BEATDETECTOR_STATE_WAITING:
+                        sendString("WAIT");
+                        break;
+                    case BEATDETECTOR_STATE_FOLLOWING_SLOPE:
+                        sendString("FSLOPE");
+                        break;
+                    case BEATDETECTOR_STATE_MAYBE_DETECTED:
+                        sendString("MDET");
+                        break;
+                    case BEATDETECTOR_STATE_MASKING:
+                        sendString("MASK");
+                        break;
+                    default:
+                        sendString("ERR");
+                        break; 
+                }
                 sendData('\n');
                 break;
 

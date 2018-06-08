@@ -16,6 +16,7 @@ uint32_t _millis = 0;
 
 void initWDT();
 void holdWDT();
+void clearMillis();
 
 
 void initWDT()
@@ -39,6 +40,13 @@ uint32_t millis(void)
   __enable_interrupt();
   return safe_millis;
 }
+
+void clearMillis()
+{
+  __disable_interrupt();
+  _millis = 0;
+  __enable_interrupt();
+} 
 
 // Watchdog Timer interrupt service routine
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)

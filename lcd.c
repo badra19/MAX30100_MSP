@@ -16,6 +16,7 @@
 #define BIG_DLY  3000
 #define CLR_DISPLAY  Send_Byte(1, COMANDO, BIG_DLY)
 #define POS0_DISPLAY Send_Byte(2, COMANDO, BIG_DLY)
+#define POS1_DISPLAY Send_Byte(0xC0, COMANDO, BIG_DLY)
 
 void Atraso_us(volatile unsigned int us);
 void Send_Nibble(volatile unsigned char nibble, volatile unsigned char dados, volatile unsigned int microsegs);
@@ -42,12 +43,16 @@ void InitLCD(void)
 
 void Atraso_us(volatile unsigned int us)
 {
-
-	TA1CCR0 = us-1;
-	TA1CTL = TASSEL_2 + ID_3 + MC_3 + TAIE;
-	while((TA1CTL & TAIFG)==0);
-	TA1CTL = TACLR;
-	TA1CTL = 0;
+    volatile unsigned int k = 0;
+    while (k < 16)
+    {
+        TA1CCR0 = us-1;
+        TA1CTL = TASSEL_2 + ID_3 + MC_3 + TAIE;
+        while((TA1CTL & TAIFG)==0);
+        TA1CTL = TACLR;
+        TA1CTL = 0;
+        k++;
+    }
 }
 
 void Send_Nibble(volatile unsigned char nibble, volatile unsigned char dados, volatile unsigned int microsegs)
