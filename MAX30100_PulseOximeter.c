@@ -1,10 +1,3 @@
-/*
- * MAX30100_PulseOximeter.c
- *
- *  Created on: 28 de mai de 2018
- *      Author: Davi Mendes
- */
-
 #include "MAX30100_PulseOximeter.h"
 #include "MAX30100.h"
 #include "MAX30100_BeatDetector.h"
@@ -146,12 +139,12 @@ void pulseOxCheckCurrentBias()
             setLedsCurrent(irLedCurrent, (LEDCurrent)redLedCurrentIndex);
             tsLastCurrentAdjustment = millis();
 
-            /*
             if (debuggingMode != PULSEOXIMETER_DEBUGGINGMODE_NONE) {
-                Serial.print("I:");
-                Serial.println(redLedCurrentIndex);
+                sendString("Icurr:");
+                sendInt(redLedCurrentIndex);
+                sendData('\n');
             }
-            */
+
         }
 
         tsLastBiasCheck = millis();
@@ -164,7 +157,7 @@ void pulseOxUpdate()
     update();
 
     pulseOxCheckSample();
-    //pulseOxCheckCurrentBias();
+    //pulseOxCheckCurrentBias(); // TODO - Testar essa função
 }
 
 float pulseOxGetHeartRate()

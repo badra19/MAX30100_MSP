@@ -1,10 +1,3 @@
-/*
- * MAX30100_Registers.h
- *
- *  Created on: 25 de mai de 2018
- *      Author: Davi Mendes
- */
-
 #ifndef MAX30100_REGISTERS_H_
 #define MAX30100_REGISTERS_H_
 

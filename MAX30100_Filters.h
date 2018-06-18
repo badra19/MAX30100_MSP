@@ -1,10 +1,3 @@
-/*
- * MAX30100_Filters.h
- *
- *  Created on: 28 de mai de 2018
- *      Author: Davi Mendes
- */
-
 #ifndef MAX30100_FILTERS_H_
 #define MAX30100_FILTERS_H_
 

@@ -1,10 +1,3 @@
-/*
- * I2C.h
- *
- *  Created on: 25 de mai de 2018
- *      Author: Davi Mendes
- */
-
 #ifndef I2C_H_
 #define I2C_H_
 

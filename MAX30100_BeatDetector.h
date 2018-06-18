@@ -1,10 +1,3 @@
-/*
- * MAX30100_BeatDetector.h
- *
- *  Created on: 29 de mai de 2018
- *      Author: Davi Mendes
- */
-
 #ifndef MAX30100_BEATDETECTOR_H_
 #define MAX30100_BEATDETECTOR_H_
 

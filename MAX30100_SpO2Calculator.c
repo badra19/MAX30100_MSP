@@ -1,17 +1,6 @@
-/*
- * MAX30100_SpO2Calculator.c
- *
- *  Created on: 29 de mai de 2018
- *      Author: Davi Mendes
- */
-
-
 #include <math.h>
 
 #include "MAX30100_SpO2Calculator.h"
-
-// SaO2 Look-up Table
-// http://www.ti.com/lit/an/slaa274b/slaa274b.pdf
 
 uint8_t spO2CalcGetSpO2()
 {

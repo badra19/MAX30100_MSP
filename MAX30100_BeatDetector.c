@@ -1,11 +1,3 @@
-/*
- * MAX30100_BeatDetector.c
- *
- *  Created on: 29 de mai de 2018
- *      Author: Davi Mendes
- */
-
-
 #include "MAX30100_BeatDetector.h"
 #include "TimerWDT.c"
 #include <stdbool.h>

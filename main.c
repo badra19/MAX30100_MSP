@@ -82,17 +82,7 @@ int main(void) {
     initGPIO();
     initI2C();
     initUart();
-    //InitLCD();
     __bis_SR_register(GIE);
-
-    /*
-    P2DIR &= ~BIT3;
-    P2OUT |= BIT3;
-    P2REN |= BIT3;
-
-    Send_String("AMO MICRO");
-    while(!(P2IN & BIT3));
-    */
 
     sendString("Initializing MAX30100..");
     sendData('\n');
@@ -119,32 +109,8 @@ int main(void) {
         sendString("HR: ");
         sendFloat(pulseOxGetHeartRate());
         sendData('\n');
-        __delay_cycles(200000);
+        __delay_cycles(400000); // TODO - Usar função de atraso com timer aqui.
     }
-
-    /*
-    uint16_t rawIRValue, rawRedValue;
-    float irACValue, redACValue;
-    while(1)
-    {
-        update();
-
-        while(getRawValues(&rawIRValue, &rawRedValue))
-        {
-            irACValue = dcStepIr(rawIRValue);
-            redACValue = dcStepRed(rawRedValue);
-
-            spO2CalcUpdate(irACValue, redACValue, true);
-        }
-        if(rawIRValue > 30000 && rawRedValue > 30000)
-        {
-
-            sendInt((unsigned int) pulseOxGetSpO2());
-            sendData('\n');
-            __delay_cycles(1000000);
-        }
-    }
-    */
 
     return 0;
 }

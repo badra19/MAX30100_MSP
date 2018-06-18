@@ -1,18 +1,9 @@
-/*
- * timerWDT.c
- *
- *  Created on: 29 de mai de 2018
- *      Author: Davi Mendes
- */
-
-
 #include <msp430.h>
 #include <stdint.h>
 #include <stdbool.h>
 
 uint32_t millis(void);
 uint32_t _millis = 0;
-//unsigned int _ticks = 0;
 
 void initWDT();
 void holdWDT();
@@ -21,7 +12,7 @@ void clearMillis();
 
 void initWDT()
 {
-    WDTCTL = WDTPW+WDTTMSEL+WDTCNTCL+WDTIS2;
+    WDTCTL = WDTPW+WDTTMSEL+WDTCNTCL+WDTIS2; // Interrupt every 2 ms. 16MHz Clk
     // WDTCTL = WDT_MDLY_32;
     //          WDT_MDLY_0_5;
     SFRIE1 |= WDTIE;
@@ -58,10 +49,5 @@ void __attribute__ ((interrupt(WDT_VECTOR))) WDT_ISR (void)
 #error Compiler not supported!
 #endif
 {
-    //_ticks ++;
-    //if(_ticks == 16)
-    //{
-        _millis += 2;
-        //_ticks = 0;
-    //}
+  _millis += 2;
 }

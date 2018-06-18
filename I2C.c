@@ -1,10 +1,6 @@
 //******************************************************************************
 //   MSP430FR243x Demo - eUSCI_B0, I2C Master multiple byte TX/RX
 //
-//   Description: I2C master communicates to I2C slave sending and receiving
-//   3 different messages of different length. I2C master will enter LPM0 mode
-//   while waiting for the messages to be sent/receiving using I2C interrupt.
-//   ACLK = NA, MCLK = SMCLK = DCO 16MHz.
 //
 //                                     /|\ /|\
 //                   MSP430FR2633      4.7k |
