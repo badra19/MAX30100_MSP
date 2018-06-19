@@ -157,7 +157,7 @@ void pulseOxUpdate()
     update();
 
     pulseOxCheckSample();
-    //pulseOxCheckCurrentBias(); // TODO - Testar essa função
+    pulseOxCheckCurrentBias();
 }
 
 float pulseOxGetHeartRate()

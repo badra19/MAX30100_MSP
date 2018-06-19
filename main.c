@@ -56,22 +56,6 @@ void initClockTo16MHz()
     while(CSCTL7 & (FLLUNLOCK0 | FLLUNLOCK1));         // FLL locked
 }
 
-void atrasoMs(volatile unsigned int us)
-{
-    volatile int count = 0;
-    TA0CTL = TASSEL_2 + ID_3 + MC_3 + TAIE;
-    TA0CCR0 = us-1;
-
-    while(count < 1000)
-    {
-        while((TA0CTL & TAIFG)==0);
-        TA0CTL = MC_0;
-        TA0CTL = 0;
-        count++;
-    }
-
-}
-
 //******************************************************************************
 // Main ************************************************************************
 //******************************************************************************
@@ -80,6 +64,7 @@ int main(void) {
     initWDT();
     initClockTo16MHz();
     initGPIO();
+    InitLCD();
     initI2C();
     initUart();
     __bis_SR_register(GIE);
@@ -93,6 +78,7 @@ int main(void) {
         sendData('\n');
     }
     else
+
     {
         LED_OUT = LED0_PIN + LED1_PIN;
         sendString("Failed");
@@ -100,16 +86,29 @@ int main(void) {
         return 1;
     }
 
+    unsigned int spo2Read, hrRead;
     while(1)
     {
         pulseOxUpdate();
+        spo2Read = (unsigned int) pulseOxGetSpO2();
+        hrRead = (unsigned int) pulseOxGetHeartRate();
+
+        CLR_DISPLAY;
+        POS0_DISPLAY;
+        sendStringLCD("SpO2: ");
+        sendIntLCD((int) spo2Read);
+        sendStringLCD(" HR: ");
+        sendIntLCD((int) hrRead);
+        delayUs(0xFFFF);
+
+        /*
         sendString("SpO2: ");
-        sendInt((unsigned int) pulseOxGetSpO2());
+        sendInt(spo2Read);
         sendData('\t');
         sendString("HR: ");
-        sendFloat(pulseOxGetHeartRate());
+        sendFloat(hrRead);
         sendData('\n');
-        __delay_cycles(400000); // TODO - Usar função de atraso com timer aqui.
+        */
     }
 
     return 0;
