@@ -32,7 +32,7 @@ void initLCD(void)
     // Atraso de 10ms para o LCD fazer o boot
     delayUs(10000);
     LCD_DIR |= D4+D5+D6+D7+RS+E;
-    Send_Nibble(0x03, COMANDO, CMND_DLY);
+    sendNibleLCD(0x03, COMANDO, CMND_DLY);
     for(i=0; i<4; i++)
         sendByteLCD(CMNDS[i], COMANDO, CMND_DLY);
     CLR_DISPLAY;
@@ -48,7 +48,7 @@ void delayUs(volatile unsigned int us)
     TA1CTL = 0;
 }
 
-void Send_Nibble(volatile unsigned char nibble, volatile unsigned char dados, volatile unsigned int microsegs)
+void sendNibleLCD(volatile unsigned char nibble, volatile unsigned char dados, volatile unsigned int microsegs)
 {
     LCD_OUT |= E;
     LCD_OUT &= ~(RS + D4 + D5 + D6 + D7);
@@ -63,8 +63,8 @@ void Send_Nibble(volatile unsigned char nibble, volatile unsigned char dados, vo
 
 void sendByteLCD(volatile unsigned char byte, volatile unsigned char dados, volatile unsigned int microsegs)
 {
-    Send_Nibble(byte >> 4, dados, microsegs/2);
-    Send_Nibble(byte & 0xF, dados, microsegs/2);
+    sendNibleLCD(byte >> 4, dados, microsegs/2);
+    sendNibleLCD(byte & 0xF, dados, microsegs/2);
 }
 
 void sendDataLCD(volatile unsigned char byte)

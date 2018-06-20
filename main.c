@@ -1,6 +1,7 @@
 #include <msp430.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include "TimerWDT.c"
 #include "MAX30100.c"
 #include "UARTcom.c"
 #include "MAX30100_PulseOximeter.c"
@@ -23,8 +24,8 @@
 void initGPIO()
 {
     // Configure GPIO
-    LED_OUT &= ~(LED0_PIN | LED1_PIN); // P1 setup for LED & reset output
-    LED_DIR |= (LED0_PIN | LED1_PIN);
+    LED_OUT &= ~(LED0_PIN | LED1_PIN | BIT6); // P1 setup for LED & reset output
+    LED_DIR |= (LED0_PIN | LED1_PIN | BIT6);
 
     // I2C pins
     P1SEL0 |= BIT2 | BIT3;
@@ -64,14 +65,14 @@ int main(void) {
     initWDT();
     initClockTo16MHz();
     initGPIO();
-    InitLCD();
+    initLCD();
     initI2C();
     initUart();
     __bis_SR_register(GIE);
 
     sendString("Initializing MAX30100..");
     sendData('\n');
-    if(pulseOxBegin(PULSEOXIMETER_DEBUGGINGMODE_NONE) == true)
+    if(pulseOxBegin(PULSEOXIMETER_DEBUGGINGMODE_PULSEPLOTTER) == true)
     {
         LED_OUT = LED0_PIN;
         sendString("Sucess");
@@ -92,6 +93,12 @@ int main(void) {
         pulseOxUpdate();
         spo2Read = (unsigned int) pulseOxGetSpO2();
         hrRead = (unsigned int) pulseOxGetHeartRate();
+
+        P1OUT &= ~BIT6;
+        if ((hrRead >= 100 && spo2Read != 0) || (spo2Read == 93 && hrRead != 0))
+            P1OUT |= BIT6;
+        else
+            P1OUT &= ~BIT6;
 
         CLR_DISPLAY;
         POS0_DISPLAY;

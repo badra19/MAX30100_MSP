@@ -13,8 +13,8 @@ void clearMillis();
 void initWDT()
 {
     WDTCTL = WDTPW+WDTTMSEL+WDTCNTCL+WDTIS2; // Interrupt every 2 ms. 16MHz Clk
-    // WDTCTL = WDT_MDLY_32;
-    //          WDT_MDLY_0_5;
+    //WDTCTL = WDT_MDLY_0_5;
+    //          WDT_MDLY_32;
     SFRIE1 |= WDTIE;
 }
 
