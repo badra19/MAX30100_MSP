@@ -1,5 +1,4 @@
 #include "MAX30100_BeatDetector.h"
-#include "TimerWDT.c"
 #include <stdbool.h>
 
 #ifndef min
